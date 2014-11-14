@@ -135,7 +135,7 @@ To draw a shape, you need to add a new path to the paths object. This is similar
 
 This script:
 
-```
+```js
 var doc = app.documents.add(null,100,100);
 doc.pathItems.rectangle(0,0,50,20);
 ```

@@ -316,4 +316,214 @@ function makeColor(r,g,b){
 
 ![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/11.png)
 
+Illustrator also allows you to add other kinds of text objects. Here is text that wraps inside a shape.
+
+```js
+var width = 100;
+var height = 100;
+var doc = app.documents.add(null,width,height);
+
+//create the path
+var m = 30;//margin
+var path1 = doc.pathItems.add();
+path1.setEntirePath ([
+    [m,m],
+    [m,height-m],
+    [width-m,height-m],
+    [width-m,m]
+]);
+
+//create the text
+var text1 = doc.textFrames.areaText( path1 );
+text1.contents = '"She knew that technology was \
+a means to an end — and that the end was people. \
+She saw it as something you needed to get to the \
+real work: improving people’s lives, making them \
+feel more connected, bringing delight in big and \
+small ways, and empowering them to affect change."';
+
+var fontStyle = text1.textRange.characterAttributes;
+fontStyle.textFont = app.textFonts.getByName("Courier");
+fontStyle.size = 2.5;
+```
+
+![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/12.png)
+
+Here is an example of text on a path!
+
+```js
+var width = 100;
+var height = 100;
+var doc = app.documents.add(null,width,height);
+
+//create the path
+var path1 = doc.pathItems.add();
+path1.setEntirePath ([
+    [6.7,78.8],[52.3,78.8],[61.7,77.7],[70.3,73.7],
+    [80.2,65.2],[84.7,55.8],[87.2,44.2],[85.5,35.2],
+    [80.3,26.5],[72,20.7],[61.3,17.3],[51.5,19.2],
+    [43.3,25.2],[38.3,34.8],[38.7,45],[44.2,52.5],
+    [53.2,56.8],[60.3,55.8],[66.3,51.2],[69.2,44],
+    [67.3,36.3],[62.2,32.2],[54.2,32.2],[49.2,38.5],
+    [50,45.2],[53.7,47.3],[58.5,47.2],[61,44],
+    [61.8,41.2],[60.2,38.5],[58.3,38]
+]);
+
+//create the text
+var text1 = doc.textFrames.pathText( path1 );
+text1.contents = "she had plenty of time as she "+
+"went down to look about her and to wonder what "+
+"was going to happen next. First, she tried to look "+
+"down and make out what she was coming to, "+
+"but it was too dark to see anything.";
+
+var fontStyle = text1.textRange.characterAttributes;
+fontStyle.size = 3.4;
+fontStyle.textFont = app.textFonts.getByName("Times-Roman");
+```
+
+![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/13.png)
+
+###9. Image
+
+Images all live in the placedItems collection of the document. To add a new image, we call `PlacedItems.add()`. That function will return an instance of a PlacedItem, and that object will have lots of properties you can tweak. More information in the reference on page 151. Here is an example:
+
+```js
+var width = 1280;
+var height = 700;
+var doc = app.documents.add(null,width,height);
+
+var placedItem1 = doc.placedItems.add();
+placedItem1.file = new File("/Library/Desktop Pictures/Galaxy.jpg");
+placedItem1.left = 500;
+placedItem1.top = 400;
+```
+
+![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/14.png)
+
+Unfortunately, I have not yet found a way to read/write the pixel color data for a placed image. However, because it's illustrator, it has an excellent raster-to-vector conversion at your fingertips with a ridiculously simple call to `trace()` . . .
+
+```js
+var width = 1280;
+var height = 700;
+var doc = app.documents.add(null,width,height);
+
+var placedItem1 = doc.placedItems.add();
+placedItem1.file = new File("/Library/Desktop Pictures/Antelope Canyon.jpg");
+var pluginItem1 = placedItem1.trace();
+pluginItem1.tracing.expandTracing();
+```
+
+![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/15.png)
+
+. . . so although you can't programmatically "eyedrop" a color, with trace it is possible (although inelegant, imprecise, and inefficient) to eyedrop the color at a specific part of an image. I haven't tried this but you could trace, expand, find the path that covers that area, then use its fill-color.
+
+###10. Changing What's Already There.
+
+I've shown you how to create into a layout, but what about manipulating stuff already in the layout? Let's start with this document with paths:
+
+![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/16.png)
+
+Those little squares live in the document's pathItems collection. Let's iterate through all of them and report their positions.
+
+```js
+var doc = app.activeDocument;
+for(var i=0;i<doc.pathItems.length;i++){
+        $.writeln(doc.pathItems[i].left);
+}
+And the console output:
+1083.06927897624
+957.075580856121
+831.081882736004
+705.088184615886
+579.094486495769
+453.100788375652
+327.107090255535
+201.113392135418
+75.1196940153004
+Result: undefined
+This could be useful in times when you need to trace an image and get the points, or identify a point somewhere on an image. Ok, now let's move the squares around. I'm going to change the color, blending, position, size, and even the rotation which, in Illustrator, is most accessible as a simple property of the object.
+var doc = app.activeDocument;
+for(var i=0;i<doc.pathItems.length;i++){
+    var a = doc.pathItems[i];
+    a.left += Math.random() * 1000-500;
+    a.top += Math.random() * 1000-500;
+    a.fillColor = makeColor(
+        Math.random()*255,
+        Math.random()*255,
+        Math.random()*255
+    );
+    a.width = Math.random()*1000;
+    a.height = Math.random()*1000;
+    a.rotate(Math.random()*90);
+    a.blendingMode = BlendModes.SCREEN;
+}
+
+/*
+    necessary since RGBColor class has no constructor.
+*/
+function makeColor(r,g,b){
+    var c = new RGBColor();
+    c.red   = r;
+    c.green = g;
+    c.blue  = b;
+    return c;
+}
+```
+
+![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/17.png)
+
+The same holds true for accessing placed items and text. Simply treat the document level collection as an array and loop through it. There is one more thing worth mentioning before I send you off to explore for yourself. It's possible to check to see if an object is selected. Simply test the boolean property selected. All items have that property. The result can be a powerful system for blending interactive user selection with scripting.
+
+```js
+var doc = app.activeDocument;
+for(var i=0;i<doc.pathItems.length;i++){
+    var a = doc.pathItems[i];
+    if(a.selected)a.rotate(45);
+}
+```
+
+![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/18.png)
+
+
+#Tips, Tricks, Hacks
+
+###Automating app linkage
+
+Getting tired of using the drop down menu every time you need to link up to the illustrator app? You can already specify the target app right in your script.
+
+\#target illustrator-18
+
+More about \#hash-commands (preprocessor directives) on page 233 of this file:
+
+*/Applications/Adobe ExtendScript Toolkit CC/SDK/JavaScript Tools Guide CC.pdf*
+
+
+###Changing the font to fixed-width
+
+You'll notice that the scripting editor has some sort of sans-serif font. Your eyes are probably more familiar with a fixed-width font, so here is how to change that:
+
+Choose the menu *ExtendScript Toolkit > Preferences...* and in that popup, select *Fonts and Colors* on the right. In the Font dropdown menu, choose Monaco or Courier or which ever fixed-width font you prefer. It also helps me to choose 12 for the font size.
+
+![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/19.png)
+
+Hit OK when you are done, and the changes will be visible in the editor.
+
+###Coding in the layout
+
+Because why not. JS has an `eval()` function and some of your know what that implies.  
+
+![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/20.png)
+
+The above is proof that you can code in the illustrator layout, itself. To run the code, access the text object then call eval on the string contents.
+
+---------------------------------------
+
+
+Ok, that concludes this tutorial. Let me know if there are topics you're interested in knowing about.
+
+
+
+
+
 

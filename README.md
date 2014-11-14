@@ -442,7 +442,11 @@ And the console output:
 201.113392135418
 75.1196940153004
 Result: undefined
+```
+
 This could be useful in times when you need to trace an image and get the points, or identify a point somewhere on an image. Ok, now let's move the squares around. I'm going to change the color, blending, position, size, and even the rotation which, in Illustrator, is most accessible as a simple property of the object.
+
+```js
 var doc = app.activeDocument;
 for(var i=0;i<doc.pathItems.length;i++){
     var a = doc.pathItems[i];

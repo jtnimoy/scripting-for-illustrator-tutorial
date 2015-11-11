@@ -497,7 +497,7 @@ for(var i=0;i<doc.pathItems.length;i++){
 Getting tired of using the drop down menu every time you need to link up to the illustrator app? You can already specify the target app right in your script.
 
 ```c++
-\#target illustrator-18
+#target illustrator-18
 ```
 
 More about \#hash-commands (preprocessor directives) on page 233 of this file:

@@ -477,7 +477,7 @@ function makeColor(r,g,b){
 
 ![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/17.png)
 
-The same holds true for accessing placed items and text. Simply treat the document level collection as an array and loop through it. There is one more thing worth mentioning before I send you off to explore for yourself. It's possible to check to see if an object is selected. Simply test the boolean property selected. All items have that property. The result can be a powerful system for blending interactive user selection with scripting.
+The same holds true for accessing placed items and text. Simply treat the document level collection as an array and loop through it. There is one more thing worth mentioning before I send you off to explore for yourself. It's possible to check to see if an object is selected. Simply test the boolean property `PathItem.selected`. All items have that property. The result can be a powerful system for blending interactive user selection with scripting.
 
 ```js
 var doc = app.activeDocument;
@@ -517,7 +517,7 @@ Hit OK when you are done, and the changes will be visible in the editor.
 
 ###Coding in the layout
 
-Because why not. JS has an `eval()` function and some of your know what that implies.  
+Because why not. JS has an `eval()` function and some of you know what that implies.  
 
 ![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/20.png)
 

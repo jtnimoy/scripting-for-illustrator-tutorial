@@ -3,11 +3,11 @@ scripting-for-illustrator-tutorial
 
 Scripting for Illustrator, a tutorial for Processing coders.
 
-###Intro
+### Intro
 
 I'm going to show you how to create a new document, work with existing documents, make shapes, text, and placed images. I will also show you how to manipulate preexisting objects in a layout. The tutorial assumes you are familiar with basic concepts of object oriented language and the basics of Processing. Naturally, it helps to know the Javascript language, and the basics of Adobe Illustrator. If you are new to the Javascript language (even if you know Java from Processing), here is a nice JS tutorial: http://www.codecademy.com/en/tracks/javascript
 
-###Install
+### Install
 
 Beginning with Illustrator CC, the scripting is not bundled so please download and install it now. It can be found in the Adobe Creative Cloud system menu in the Apps tab. Otherwise, you can find the link here: https://creative.adobe.com/products/estk
 
@@ -25,7 +25,7 @@ Choose "YES" and it will launch Illustrator for you.
 
 The chain link to the left of the dropdown menu is now linked-up and colored green. If illustrator closes, you will see the link icon looking "broken".
 
-###HelloWorld
+### HelloWorld
 
 It's deceptively simple. Type `"Hello World"` into the editor (INCLUDING THE QUOTES), then hit the green play button. Illustrator will flash for a moment, then return you back to ExtendScript.
 
@@ -51,7 +51,7 @@ At the end, you see Result: undefined since the last function call was to `$.wri
 
 At this time, you may notice the editor's font is a sans-serif. You will most likely prefer a fixed-width font like Monaco or Courier New. I include instructions in tips and tricks for that at the far end of this tutorial.
 
-###Documentation
+### Documentation
 
 Let's explore the $ object in the documentation. Open up this PDF:
 
@@ -65,7 +65,7 @@ Let's explore the $ object in the documentation. Open up this PDF:
 
 Okay, so let's stop printing test messages to the console and begin to control the Illustrator app.
 
-###Install Illustrator API Documentation
+### Install Illustrator API Documentation
 
 I'm not sure why, but Adobe does not bundle the Illustrator API documentation with ExtendScript or with Illustrator. Here is where to get it: http://www.adobe.com/devnet/illustrator/scripting.html  ...  Download the PDFs called "Illustrator Scripting Reference - JavaScript.pdf" and "Illustrator Scripting Guide.pdf". The guide is an overview of the entire system and how it works, although the language may possibly be developer-centric for an ITPer. The reference is a list of all the objects, describing their properties and methods. A great place to start is page 14. Here is the drawing you see. Don't worry if it's overwhelming information. The API is vast and you don't need to memorize this stuff. Just know that it's there for reference as you work.
 
@@ -73,7 +73,7 @@ I'm not sure why, but Adobe does not bundle the Illustrator API documentation wi
 
 An object model describes which types of things contain other types of things. In this case, the Application object is the top-most, root of the tree. The diagram shows that the Application directly contains TextFont, Document, and those 4 objects on the far right. In the next part of this tutorial, I will show you how to work with the documents. Please think of this as akin to the Processing tutorial on the `background()` and `size()` functions. 
 
-###Getting the open Document
+### Getting the open Document
 
 Continuing our discussion of the object model diagram, the Document object, in turn, looks like it directly contains most every kind of thing you would want to create or access, including shapes and art boards. Awesome, so let's work our way down into the cave! Please open the reference PDF (the file you downloaded, called "Illustrator Scripting Reference - JavaScript.pdf") and turn to page 3, the table of contents. Notice it's just a list of object names. Click on "Application" and it will jump to page 8, where it describes the Application object. The description says the following:
 
@@ -96,7 +96,7 @@ $.writeln(app.activeDocument);
 
 You'll see the system gets confused unless you have a document open in illustrator. If the execution stopped and gave you a red line, try creating a new Illustrator document and leaving it open before running the script again, and it will not error that time.
 
-###Create a New Document
+### Create a New Document
 
 If you wish to simply work with the document you already have open, your shortcut is app.activeDocument. However, if you wish to create a new document, here's how we go about it. In the reference, we see the Application has a property called documents, which is an instance of Documents . Click the blue link to Documents and it will jump to page 45, documentation on the collection of Document objects. This object is basically an array of documents. If you have nothing open, the length property will be 0. To create a new document using a pop-up dialog to ask the user what sort of document they need, you can go like this:
 
@@ -129,7 +129,7 @@ var doc = app.documents.add(null,null,null,4);
 var doc = app.documents.add(null,10,10,100,DocumentArtboardLayout.Column,10,10);
 ```
 
-###Shape and Color
+### Shape and Color
 
 To draw a shape, you need to add a new path to the paths object. This is similar to the structure of app.documents but this time, it's Document.pathItems.
 
@@ -273,7 +273,7 @@ function makeColor(c,m,y,k){
 
 ![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/09.png)
 
-###Text
+### Text
 
 All the text objects live inside the text collection, `Document.textFrames`. We add new things to it in the same way we did with shapes and artboards.
 
@@ -384,7 +384,7 @@ fontStyle.textFont = app.textFonts.getByName("Times-Roman");
 
 ![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/13.png)
 
-###Image
+### Image
 
 Images all live in the placedItems collection of the document. To add a new image, we call `PlacedItems.add()`. That function will return an instance of a PlacedItem, and that object will have lots of properties you can tweak. More information in the reference on page 151. Here is an example:
 
@@ -418,7 +418,7 @@ pluginItem1.tracing.expandTracing();
 
 . . . so although you can't programmatically "eyedrop" a color, with trace it is possible (although inelegant, imprecise, and inefficient) to eyedrop the color at a specific part of an image. I haven't tried this but you could trace, expand, find the path that covers that area, then use its fill-color.
 
-###Changing What's Already There.
+### Changing What's Already There.
 
 I've shown you how to create into a layout, but what about manipulating stuff already in the layout? Let's start with this document with paths:
 
@@ -490,9 +490,9 @@ for(var i=0;i<doc.pathItems.length;i++){
 ![](http://cdn.jtn.im/2014-11-13-ai-scripting-tut/18.png)
 
 
-#Tips, Tricks, Hacks
+# Tips, Tricks, Hacks
 
-###Automating app linkage
+### Automating app linkage
 
 Getting tired of using the drop down menu every time you need to link up to the illustrator app? You can already specify the target app right in your script.
 
@@ -505,7 +505,7 @@ More about \#hash-commands (preprocessor directives) on page 233 of this file:
 */Applications/Adobe ExtendScript Toolkit CC/SDK/JavaScript Tools Guide CC.pdf*
 
 
-###Changing the font to fixed-width
+### Changing the font to fixed-width
 
 You'll notice that the scripting editor has some sort of sans-serif font. Your eyes are probably more familiar with a fixed-width font, so here is how to change that:
 
@@ -515,7 +515,7 @@ Choose the menu *ExtendScript Toolkit > Preferences...* and in that popup, selec
 
 Hit OK when you are done, and the changes will be visible in the editor.
 
-###Coding in the layout
+### Coding in the layout
 
 Because why not. JS has an `eval()` function and some of you know what that implies.  
 

@@ -5,7 +5,8 @@ Scripting for Illustrator, a tutorial for Processing coders.
 
 ###Intro
 
-I'm going to show you how to create a new document, work with existing documents, make shapes, text, and placed images. I will also show you how to manipulate preexisting objects in a layout. The tutorial assumes you are familiar with basic concepts of object oriented language and the basics of Processing. Naturally, it helps to know the Javascript language, and the basics of Adobe Illustrator. If you are new to the Javascript language (even if you know Java from Processing), here is a nice JS tutorial: http://www.codecademy.com/en/tracks/javascript
+I'm going to show you how to create a new document, work with existing documents, make shapes, text, and place images. I will also show you how to manipulate preexisting objects in a layout. The tutorial assumes you are familiar with basic concepts of object oriented language and the basics of Processing. Naturally, it helps to know the Javascript language, and the basics of Adobe Illustrator. If you are new to the Javascript language (even if you know Java from Processing), here is a nice JS tutorial: http://www.codecademy.com/en/tracks/javascript
+You are going to understand more about Illustrator in a much compatible tutorial.It will surely guide you a lot.
 
 ###Install
 
@@ -47,7 +48,7 @@ here is another line.
 Result: undefined
 ```
 
-At the end, you see Result: undefined since the last function call was to `$.writeln()` and that has a void return type, and nothing is sent back. 
+At the end, you will see Result: undefined since the last function call was to `$.writeln()` and that has a void return type, and nothing is sent back. 
 
 At this time, you may notice the editor's font is a sans-serif. You will most likely prefer a fixed-width font like Monaco or Courier New. I include instructions in tips and tricks for that at the far end of this tutorial.
 
